@@ -65,7 +65,7 @@ function ProductDetail() {
             />
           </div>
           <div className="mt-4 flex gap-3">
-            {product.gallery.map((g, i) => (
+            {product.gallery.map((g: string, i: number) => (
               <button
                 key={i}
                 onClick={() => setActive(i)}
@@ -115,7 +115,7 @@ function ProductDetail() {
           </dl>
 
           <ul className="mt-6 space-y-2 text-sm">
-            {product.features.map((f) => (
+            {product.features.map((f: string) => (
               <li key={f} className="flex items-start gap-2">
                 <Check className="h-4 w-4 text-terracotta mt-0.5 shrink-0" /> {f}
               </li>
