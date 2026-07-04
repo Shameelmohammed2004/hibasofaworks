@@ -87,7 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Design with Dignity. Custom sofas, reupholstery and repair, made-to-measure in Bengaluru since 2016. Pan-India delivery.",
       },
       { name: "author", content: "Hiba Sofa Works" },
-      { property: "og:title", content: "Hiba Sofa Works — Design with Dignity" },
+      { property: "og:title", content: "Hiba Sofa Works — Custom Sofas & Reupholstery in Bengaluru" },
       {
         property: "og:description",
         content:
@@ -95,6 +95,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Hiba Sofa Works — Custom Sofas & Reupholstery in Bengaluru" },
+      { name: "description", content: "Design with Dignity. Custom sofas, reupholstery and repair, made-to-measure in Bengaluru since 2016. Pan-India delivery." },
+      { property: "og:description", content: "Design with Dignity. Custom sofas, reupholstery and repair, made-to-measure in Bengaluru since 2016. Pan-India delivery." },
+      { name: "twitter:description", content: "Design with Dignity. Custom sofas, reupholstery and repair, made-to-measure in Bengaluru since 2016. Pan-India delivery." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/32701e9b-5691-422c-9395-b7ad9de89a1f" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/32701e9b-5691-422c-9395-b7ad9de89a1f" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
