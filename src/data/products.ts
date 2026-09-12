@@ -1,8 +1,4 @@
-import corner from "@/assets/product-corner.jpg";
-import threeSeater from "@/assets/product-3seater.jpg";
-import set from "@/assets/product-set.jpg";
-import lounge from "@/assets/product-lounge.jpg";
-import three_two from "@/assets/product-32.jpg";
+import { supabase } from "@/lib/supabase";
 
 export type ProductCategory =
   | "3-Seater"
@@ -11,7 +7,19 @@ export type ProductCategory =
   | "3+2 Set"
   | "Lounge Sofa";
 
+export const categories: ProductCategory[] = [
+  "3-Seater",
+  "Corner Sofa",
+  "3+1+1 Set",
+  "3+2 Set",
+  "Lounge Sofa",
+];
+
+// This is the shape every component on the site expects — unchanged from before,
+// so ProductCard, the shop pages, and the homepage don't need to know anything
+// changed underneath them.
 export type Product = {
+  id?: string;
   slug: string;
   name: string;
   category: ProductCategory;
@@ -26,133 +34,62 @@ export type Product = {
   features: string[];
 };
 
-export const products: Product[] = [
-  {
-    slug: "ivory-linen-3seater",
-    name: "Ivory Linen 3-Seater",
-    category: "3-Seater",
-    seating: 3,
-    fabric: "Premium Linen",
-    startingPrice: 32000,
-    image: threeSeater,
-    gallery: [threeSeater, set, lounge],
-    tagline: "A quiet centrepiece for the modern home.",
-    description:
-      "Hand-built on a seasoned hardwood frame with high-density foam, wrapped in soft yet durable linen. Made-to-measure so it fits your room, not the other way around.",
-    dimensions: "72 in W × 34 in D × 32 in H (customisable)",
-    features: [
-      "Seasoned hardwood frame",
-      "35-density HR foam seats",
-      "Removable, washable covers",
-      "Choice of 40+ fabric swatches",
-    ],
-  },
-  {
-    slug: "kodava-corner-sofa",
-    name: "Kodava Corner Sofa",
-    category: "Corner Sofa",
-    seating: 5,
-    fabric: "Textured Weave",
-    startingPrice: 58000,
-    image: corner,
-    gallery: [corner, three_two, set],
-    tagline: "Turn the corner into the best seat in the room.",
-    description:
-      "An L-shaped anchor for larger living rooms. Sized to your wall — left or right chaise — with an optional storage base.",
-    dimensions: "108 in × 76 in × 33 in (customisable)",
-    features: [
-      "Left or right chaise",
-      "Optional under-seat storage",
-      "Reinforced corner joinery",
-      "Pan-India delivery included",
-    ],
-  },
-  {
-    slug: "heritage-311-set",
-    name: "Heritage 3+1+1 Set",
-    category: "3+1+1 Set",
-    seating: 5,
-    fabric: "Cotton Blend",
-    startingPrice: 74000,
-    image: set,
-    gallery: [set, threeSeater, three_two],
-    tagline: "A complete living room, made by hand.",
-    description:
-      "Our signature configuration — a three-seater with two matching single chairs. Espresso hardwood frame, clean lines, weightless silhouettes.",
-    dimensions: "3-Seater 72 in + two 34 in chairs",
-    features: [
-      "Solid espresso hardwood frame",
-      "Matched grain across pieces",
-      "Firm or medium seat option",
-      "10-year frame warranty",
-    ],
-  },
-  {
-    slug: "workshop-32-set",
-    name: "Workshop 3+2 Set",
-    category: "3+2 Set",
-    seating: 5,
-    fabric: "Mocha Weave",
-    startingPrice: 62000,
-    image: three_two,
-    gallery: [three_two, threeSeater, corner],
-    tagline: "The everyday classic, made better.",
-    description:
-      "A 3-seater and a 2-seater, tuned for Indian apartments. Deep seats, low back, easy to reupholster years down the line.",
-    dimensions: "3-Seater 72 in + 2-Seater 54 in",
-    features: [
-      "Apartment-friendly footprint",
-      "Deep 24 in seats",
-      "Easy re-cover in 5 years",
-      "Free fabric consultation",
-    ],
-  },
-  {
-    slug: "olive-lounge-chaise",
-    name: "Olive Lounge Chaise",
-    category: "Lounge Sofa",
-    seating: 3,
-    fabric: "Olive Boucle",
-    startingPrice: 46000,
-    image: lounge,
-    gallery: [lounge, threeSeater, set],
-    tagline: "For the long Sunday afternoon.",
-    description:
-      "Lower, deeper, calmer. A statement lounge in muted olive boucle with a matching footrest, made to your preferred firmness.",
-    dimensions: "84 in W × 38 in D × 30 in H",
-    features: [
-      "Matching ottoman included",
-      "Solid teak legs",
-      "Reversible seat cushions",
-      "Custom firmness levels",
-    ],
-  },
-  {
-    slug: "terracotta-velvet-loveseat",
-    name: "Terracotta Velvet Loveseat",
-    category: "3-Seater",
-    seating: 2,
-    fabric: "Cotton Velvet",
-    startingPrice: 28000,
-    image: threeSeater,
-    gallery: [threeSeater, lounge, set],
-    tagline: "A pop of colour, held with restraint.",
-    description:
-      "A compact loveseat wrapped in warm terracotta velvet. Perfect for reading nooks, bay windows, and small living rooms.",
-    dimensions: "58 in W × 32 in D × 32 in H",
-    features: [
-      "Compact footprint",
-      "Turned solid wood legs",
-      "Piped cushion detailing",
-      "20+ velvet shade options",
-    ],
-  },
-];
+// Raw row shape as stored in the Supabase "products" table (snake_case).
+type ProductRow = {
+  id: string;
+  slug: string;
+  name: string;
+  category: string;
+  seating: number | null;
+  fabric: string | null;
+  price_from: number | null;
+  images: string[] | null;
+  tagline: string | null;
+  description: string | null;
+  dimensions: string | null;
+  features: string[] | null;
+  in_stock: boolean | null;
+  sort_order: number | null;
+};
 
-export const categories: ProductCategory[] = [
-  "3-Seater",
-  "Corner Sofa",
-  "3+1+1 Set",
-  "3+2 Set",
-  "Lounge Sofa",
-];
+function rowToProduct(row: ProductRow): Product {
+  const images = row.images ?? [];
+  return {
+    id: row.id,
+    slug: row.slug,
+    name: row.name,
+    category: row.category as ProductCategory,
+    seating: row.seating ?? 0,
+    fabric: row.fabric ?? "",
+    startingPrice: row.price_from,
+    image: images[0] ?? "",
+    gallery: images.length > 0 ? images : [""],
+    tagline: row.tagline ?? "",
+    description: row.description ?? "",
+    dimensions: row.dimensions ?? "",
+    features: row.features ?? [],
+  };
+}
+
+export async function fetchProducts(): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("in_stock", true)
+    .order("sort_order", { ascending: true });
+
+  if (error) throw error;
+  return (data as ProductRow[]).map(rowToProduct);
+}
+
+export async function fetchProductBySlug(slug: string): Promise<Product | null> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data) return null;
+  return rowToProduct(data as ProductRow);
+}

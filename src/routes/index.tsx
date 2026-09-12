@@ -3,7 +3,8 @@ import { ArrowRight, Ruler, Wrench, Sparkles, Star } from "lucide-react";
 import hero from "@/assets/hero-sofa.jpg";
 import beforeAfter from "@/assets/before-after.jpg";
 import workshop from "@/assets/workshop.jpg";
-import { products } from "@/data/products";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProducts } from "@/data/products";
 import { ProductCard } from "@/components/brand/ProductCard";
 import { TrustBar } from "@/components/brand/TrustBar";
 import { InquiryForm } from "@/components/brand/InquiryForm";
@@ -34,6 +35,11 @@ const reviews = [
 ];
 
 function Home() {
+  const { data: products = [] } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+  });
+
   return (
     <>
       {/* Hero */}

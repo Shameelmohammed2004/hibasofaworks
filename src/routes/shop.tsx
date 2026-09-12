@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { products, categories, type ProductCategory } from "@/data/products";
+import { useQuery } from "@tanstack/react-query";
+import { categories, fetchProducts, type ProductCategory } from "@/data/products";
 import { ProductCard } from "@/components/brand/ProductCard";
 
 export const Route = createFileRoute("/shop")({
@@ -26,9 +27,13 @@ type Filter = "All" | ProductCategory;
 
 function Shop() {
   const [filter, setFilter] = useState<Filter>("All");
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+  });
   const filtered = useMemo(
     () => (filter === "All" ? products : products.filter((p) => p.category === filter)),
-    [filter],
+    [filter, products],
   );
 
   const chips: Filter[] = ["All", ...categories];
@@ -72,7 +77,11 @@ function Shop() {
           ))}
         </div>
 
-        {filtered.length === 0 && (
+        {isLoading && (
+          <p className="mt-16 text-center text-muted-foreground">Loading the catalog…</p>
+        )}
+
+        {!isLoading && filtered.length === 0 && (
           <p className="mt-16 text-center text-muted-foreground">
             No pieces in this category yet — WhatsApp us to build one.
           </p>

@@ -1,15 +1,17 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, ArrowLeft } from "lucide-react";
-import { products } from "@/data/products";
+import { fetchProductBySlug, fetchProducts } from "@/data/products";
 import { InquiryForm } from "@/components/brand/InquiryForm";
 import { ProductCard } from "@/components/brand/ProductCard";
 
 export const Route = createFileRoute("/shop/$slug")({
-  loader: ({ params }) => {
-    const product = products.find((p) => p.slug === params.slug);
+  loader: async ({ params }) => {
+    const product = await fetchProductBySlug(params.slug);
     if (!product) throw notFound();
-    return { product };
+    const all = await fetchProducts();
+    const related = all.filter((p) => p.slug !== product.slug).slice(0, 3);
+    return { product, related };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -40,9 +42,8 @@ export const Route = createFileRoute("/shop/$slug")({
 });
 
 function ProductDetail() {
-  const { product } = Route.useLoaderData();
+  const { product, related } = Route.useLoaderData();
   const [active, setActive] = useState(0);
-  const related = products.filter((p) => p.slug !== product.slug).slice(0, 3);
 
   return (
     <>
