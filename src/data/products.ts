@@ -1,19 +1,9 @@
 import { supabase } from "@/lib/supabase";
 
-export type ProductCategory =
-  | "3-Seater"
-  | "Corner Sofa"
-  | "3+1+1 Set"
-  | "3+2 Set"
-  | "Lounge Sofa";
-
-export const categories: ProductCategory[] = [
-  "3-Seater",
-  "Corner Sofa",
-  "3+1+1 Set",
-  "3+2 Set",
-  "Lounge Sofa",
-];
+// Categories are no longer a fixed list — whatever text is saved on a
+// product IS a category. The catalog page and admin panel both derive
+// the set of categories that currently exist from live product data.
+export type ProductCategory = string;
 
 // This is the shape every component on the site expects — unchanged from before,
 // so ProductCard, the shop pages, and the homepage don't need to know anything
@@ -92,4 +82,15 @@ export async function fetchProductBySlug(slug: string): Promise<Product | null> 
   if (error) throw error;
   if (!data) return null;
   return rowToProduct(data as ProductRow);
+}
+
+// Returns every distinct category currently used by a product, sorted
+// alphabetically. Used to populate the catalog filter chips and the
+// admin panel's category suggestions — so a brand-new category typed
+// into the admin panel shows up everywhere automatically.
+export async function fetchCategories(): Promise<string[]> {
+  const { data, error } = await supabase.from("products").select("category");
+  if (error) throw error;
+  const unique = new Set((data as { category: string }[]).map((r) => r.category).filter(Boolean));
+  return Array.from(unique).sort();
 }

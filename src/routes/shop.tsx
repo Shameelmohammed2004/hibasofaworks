@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { categories, fetchProducts, type ProductCategory } from "@/data/products";
+import { fetchProducts, type ProductCategory } from "@/data/products";
 import { ProductCard } from "@/components/brand/ProductCard";
 
 export const Route = createFileRoute("/shop")({
@@ -36,7 +36,10 @@ function Shop() {
     [filter, products],
   );
 
-  const chips: Filter[] = ["All", ...categories];
+  const chips: Filter[] = useMemo(() => {
+    const unique = Array.from(new Set(products.map((p) => p.category))).sort();
+    return ["All", ...unique];
+  }, [products]);
 
   return (
     <>

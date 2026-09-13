@@ -2,7 +2,7 @@ import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
-import { categories, type ProductCategory } from "@/data/products";
+import { fetchCategories, type ProductCategory } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,17 +22,9 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 
 export const Route = createFileRoute("/admin")({
-  beforeLoad: async ({ location }) => {
-    if (location.pathname === "/admin/login") return;
+  beforeLoad: async () => {
     const { data } = await supabase.auth.getSession();
     if (!data.session) {
       throw redirect({ to: "/admin/login" });
@@ -86,7 +78,7 @@ const emptyForm: FormState = {
   id: undefined,
   slug: "",
   name: "",
-  category: categories[0],
+  category: "",
   seating: 3,
   fabric: "",
   price_from: 0,
@@ -122,6 +114,10 @@ function AdminDashboard() {
   const { data: rows = [], isLoading } = useQuery({
     queryKey: ["admin-products"],
     queryFn: fetchRows,
+  });
+  const { data: existingCategories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
   });
 
   const [open, setOpen] = useState(false);
@@ -209,6 +205,7 @@ function AdminDashboard() {
     setOpen(false);
     queryClient.invalidateQueries({ queryKey: ["admin-products"] });
     queryClient.invalidateQueries({ queryKey: ["products"] });
+    queryClient.invalidateQueries({ queryKey: ["categories"] });
   }
 
   async function handleDelete(row: ProductRow) {
@@ -220,6 +217,7 @@ function AdminDashboard() {
     }
     queryClient.invalidateQueries({ queryKey: ["admin-products"] });
     queryClient.invalidateQueries({ queryKey: ["products"] });
+    queryClient.invalidateQueries({ queryKey: ["categories"] });
   }
 
   async function handleLogout() {
@@ -330,21 +328,17 @@ function AdminDashboard() {
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <Label>Category</Label>
-                <Select
+                <Input
+                  list="category-suggestions"
                   value={form.category}
-                  onValueChange={(v) => setForm((f) => ({ ...f, category: v as ProductCategory }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((c) => (
-                      <SelectItem key={c} value={c}>
-                        {c}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                  placeholder="e.g. 3-Seater, or type a brand new category"
+                />
+                <datalist id="category-suggestions">
+                  {existingCategories.map((c) => (
+                    <option key={c} value={c} />
+                  ))}
+                </datalist>
               </div>
               <div>
                 <Label>Starting price (₹)</Label>
