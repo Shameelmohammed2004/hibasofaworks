@@ -5,7 +5,7 @@ import { fetchProductBySlug, fetchProducts } from "@/data/products";
 import { InquiryForm } from "@/components/brand/InquiryForm";
 import { ProductCard } from "@/components/brand/ProductCard";
 
-export const Route = createFileRoute("/shop/$slug")({
+export const Route = createFileRoute("/shop_/$slug")({
   loader: async ({ params }) => {
     const product = await fetchProductBySlug(params.slug);
     if (!product) throw notFound();
