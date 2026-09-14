@@ -22,7 +22,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
-export const Route = createFileRoute("/admin/reviews")({
+export const Route = createFileRoute("/admin_/reviews")({
   head: () => ({
     meta: [
       { title: "Manage reviews — Hiba Sofa Works" },
