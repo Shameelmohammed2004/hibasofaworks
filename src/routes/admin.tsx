@@ -48,6 +48,7 @@ type ProductRow = {
   seating: number | null;
   fabric: string | null;
   price_from: number | null;
+  compare_at_price: number | null;
   images: string[] | null;
   tagline: string | null;
   description: string | null;
@@ -65,6 +66,7 @@ type FormState = {
   seating: number;
   fabric: string;
   price_from: number;
+  compare_at_price: number;
   tagline: string;
   description: string;
   dimensions: string;
@@ -82,6 +84,7 @@ const emptyForm: FormState = {
   seating: 3,
   fabric: "",
   price_from: 0,
+  compare_at_price: 0,
   tagline: "",
   description: "",
   dimensions: "",
@@ -139,6 +142,7 @@ function AdminDashboard() {
       seating: row.seating ?? 0,
       fabric: row.fabric ?? "",
       price_from: row.price_from ?? 0,
+      compare_at_price: row.compare_at_price ?? 0,
       tagline: row.tagline ?? "",
       description: row.description ?? "",
       dimensions: row.dimensions ?? "",
@@ -181,6 +185,7 @@ function AdminDashboard() {
       seating: form.seating,
       fabric: form.fabric,
       price_from: form.price_from,
+      compare_at_price: form.compare_at_price || null,
       tagline: form.tagline,
       description: form.description,
       dimensions: form.dimensions,
@@ -350,7 +355,7 @@ function AdminDashboard() {
                   }
                 />
               </div>
-              <div>
+                           <div>
                 <Label>Seating</Label>
                 <Input
                   type="number"
@@ -358,6 +363,18 @@ function AdminDashboard() {
                   onChange={(e) => setForm((f) => ({ ...f, seating: Number(e.target.value) }))}
                 />
               </div>
+            </div>
+
+            <div>
+              <Label>Regular price (₹) — optional, shows a strikethrough discount</Label>
+              <Input
+                type="number"
+                value={form.compare_at_price}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, compare_at_price: Number(e.target.value) }))
+                }
+                placeholder="Leave as 0 to hide the discount badge"
+              />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">

@@ -85,15 +85,23 @@ function ProductDetail() {
           <h1 className="mt-3 text-4xl md:text-5xl">{product.name}</h1>
           <p className="mt-3 text-lg italic text-muted-foreground">{product.tagline}</p>
 
-          <div className="mt-6 flex items-baseline gap-3">
-            <span className="text-2xl">
-              {product.startingPrice
-                ? `From ₹${product.startingPrice.toLocaleString("en-IN")}`
-                : "Price on request"}
-            </span>
-            <span className="text-xs text-muted-foreground">final quote based on size & fabric</span>
+                  <div className="mt-6">
+            <div className="flex items-baseline gap-3">
+              <span className="text-2xl">
+                {product.startingPrice
+                  ? `From ₹${product.startingPrice.toLocaleString("en-IN")}`
+                  : "Price on request"}
+              </span>
+              {product.compareAtPrice && product.startingPrice && product.compareAtPrice > product.startingPrice && (
+                <span className="text-base text-muted-foreground line-through">
+                  ₹{product.compareAtPrice.toLocaleString("en-IN")}
+                </span>
+              )}
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Final price may vary based on size, fabric &amp; customization
+            </p>
           </div>
-
           <p className="mt-6 text-foreground/80 leading-relaxed">{product.description}</p>
 
           <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">

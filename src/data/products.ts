@@ -16,6 +16,7 @@ export type Product = {
   seating: number;
   fabric: string;
   startingPrice: number | null;
+  compareAtPrice: number | null;
   image: string;
   gallery: string[];
   tagline: string;
@@ -33,6 +34,7 @@ type ProductRow = {
   seating: number | null;
   fabric: string | null;
   price_from: number | null;
+  compare_at_price: number | null;
   images: string[] | null;
   tagline: string | null;
   description: string | null;
@@ -52,6 +54,7 @@ function rowToProduct(row: ProductRow): Product {
     seating: row.seating ?? 0,
     fabric: row.fabric ?? "",
     startingPrice: row.price_from,
+    compareAtPrice: row.compare_at_price,
     image: images[0] ?? "",
     gallery: images.length > 0 ? images : [""],
     tagline: row.tagline ?? "",
