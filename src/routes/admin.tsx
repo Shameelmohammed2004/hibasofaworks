@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
@@ -237,9 +237,12 @@ function AdminDashboard() {
           <p className="eyebrow">Admin</p>
           <h1 className="mt-2 text-3xl">Manage products</h1>
         </div>
-        <div className="flex gap-2">
+                <div className="flex gap-2">
           <Button onClick={openNew}>Add product</Button>
-          <Button variant="outline" onClick={handleLogout}>
+          <Button asChild variant="outline">
+            <Link to="/admin/reviews">Manage reviews</Link>
+          </Button>
+                   <Button variant="outline" onClick={handleLogout}>
             Log out
           </Button>
         </div>

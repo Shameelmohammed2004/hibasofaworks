@@ -5,6 +5,7 @@ import beforeAfter from "@/assets/before-after.jpg";
 import workshop from "@/assets/workshop.jpg";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "@/data/products";
+import { fetchReviews } from "@/data/reviews";
 import { ProductCard } from "@/components/brand/ProductCard";
 import { TrustBar } from "@/components/brand/TrustBar";
 import { InquiryForm } from "@/components/brand/InquiryForm";
@@ -13,33 +14,15 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const reviews = [
-  {
-    name: "Anitha R.",
-    city: "Bengaluru",
-    text: "Got a customised cot and sofa made. The finish is beautiful and exactly to the dimensions I gave. Fair pricing and they delivered on time.",
-    rating: 5,
-  },
-  {
-    name: "Vinay K.",
-    city: "Bengaluru",
-    text: "Reupholstered our old recliner set. It genuinely looks brand new. The team is patient with fabric choices and very transparent about cost.",
-    rating: 5,
-  },
-  {
-    name: "Sana M.",
-    city: "Chennai",
-    text: "Ordered a 3+2 set to be shipped to Chennai. Communication over WhatsApp was excellent, packing was solid, and the sofa is very comfortable.",
-    rating: 4,
-  },
-];
-
 function Home() {
   const { data: products = [] } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
-
+  const { data: reviews = [] } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: fetchReviews,
+  });
   return (
     <>
       {/* Hero */}
@@ -192,16 +175,15 @@ function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-espresso text-cream">
-        <div className="container-hiba py-20">
+      {reviews.length > 0 && (
+      <section className="bg-espresso text-cream"><div className="container-hiba py-20">
           <div className="max-w-2xl">
             <p className="eyebrow">Google Reviews</p>
             <h2 className="mt-3 text-3xl md:text-4xl">Words from our customers</h2>
           </div>
-          <div className="mt-10 grid md:grid-cols-3 gap-6">
-            {reviews.map((r) => (
+          <div className="mt-10 grid md:grid-cols-3 gap-6">            {reviews.map((r) => (
               <blockquote
-                key={r.name}
+                key={r.id ?? r.authorName}
                 className="rounded-2xl border border-white/10 bg-white/[0.03] p-6"
               >
                 <div className="flex items-center gap-1">
@@ -211,13 +193,14 @@ function Home() {
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-cream/85">"{r.text}"</p>
                 <footer className="mt-6 text-xs text-cream/60">
-                  {r.name} · {r.city}
+                  {r.authorName} · {r.city}
                 </footer>
               </blockquote>
             ))}
           </div>
-        </div>
+               </div>
       </section>
+      )}
 
       {/* CTA */}
       <section className="container-hiba py-20 grid lg:grid-cols-2 gap-10 items-center">
