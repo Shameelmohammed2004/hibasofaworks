@@ -49,6 +49,7 @@ type ProductRow = {
   fabric: string | null;
   price_from: number | null;
   compare_at_price: number | null;
+  deposit_amount: number | null;
   images: string[] | null;
   tagline: string | null;
   description: string | null;
@@ -67,6 +68,7 @@ type FormState = {
   fabric: string;
   price_from: number;
   compare_at_price: number;
+  deposit_amount: number;
   tagline: string;
   description: string;
   dimensions: string;
@@ -85,6 +87,7 @@ const emptyForm: FormState = {
   fabric: "",
   price_from: 0,
   compare_at_price: 0,
+  deposit_amount: 0,
   tagline: "",
   description: "",
   dimensions: "",
@@ -143,6 +146,7 @@ function AdminDashboard() {
       fabric: row.fabric ?? "",
       price_from: row.price_from ?? 0,
       compare_at_price: row.compare_at_price ?? 0,
+      deposit_amount: row.deposit_amount ?? 0,
       tagline: row.tagline ?? "",
       description: row.description ?? "",
       dimensions: row.dimensions ?? "",
@@ -186,6 +190,7 @@ function AdminDashboard() {
       fabric: form.fabric,
       price_from: form.price_from,
       compare_at_price: form.compare_at_price || null,
+      deposit_amount: form.deposit_amount || null,
       tagline: form.tagline,
       description: form.description,
       dimensions: form.dimensions,
@@ -378,6 +383,22 @@ function AdminDashboard() {
                 }
                 placeholder="Leave as 0 to hide the discount badge"
               />
+            </div>
+
+            <div>
+              <Label>Booking deposit (₹) — optional</Label>
+              <Input
+                type="number"
+                value={form.deposit_amount}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, deposit_amount: Number(e.target.value) }))
+                }
+                placeholder="Leave as 0 to auto-default to 10% of starting price"
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                This is what customers actually pay at checkout to reserve this piece — not the
+                full price. The rest is settled with you directly after the final quote.
+              </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">

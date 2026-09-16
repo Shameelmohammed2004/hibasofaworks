@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { CartProvider } from "@/lib/cart";
 import {
   Outlet,
   Link,
@@ -138,14 +139,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-        <WhatsAppFloat />
-      </div>
+      <CartProvider>
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <main className="flex-1">
+            <Outlet />
+          </main>
+          <Footer />
+          <WhatsAppFloat />
+        </div>
+      </CartProvider>
     </QueryClientProvider>
   );
 }

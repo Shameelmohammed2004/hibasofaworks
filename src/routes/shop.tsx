@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts, type ProductCategory } from "@/data/products";
 import { ProductCard } from "@/components/brand/ProductCard";
+import { Reveal } from "@/components/brand/Reveal";
 
 export const Route = createFileRoute("/shop")({
   head: () => ({
@@ -75,8 +76,10 @@ function Shop() {
         </div>
 
         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((p) => (
-            <ProductCard key={p.slug} product={p} />
+          {filtered.map((p, i) => (
+            <Reveal key={p.slug} delay={(i % 3) * 0.08}>
+              <ProductCard product={p} />
+            </Reveal>
           ))}
         </div>
 

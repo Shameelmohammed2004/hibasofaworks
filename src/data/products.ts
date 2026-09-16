@@ -17,6 +17,7 @@ export type Product = {
   fabric: string;
   startingPrice: number | null;
   compareAtPrice: number | null;
+  depositAmount: number | null;
   image: string;
   gallery: string[];
   tagline: string;
@@ -35,6 +36,7 @@ type ProductRow = {
   fabric: string | null;
   price_from: number | null;
   compare_at_price: number | null;
+  deposit_amount: number | null;
   images: string[] | null;
   tagline: string | null;
   description: string | null;
@@ -55,6 +57,7 @@ function rowToProduct(row: ProductRow): Product {
     fabric: row.fabric ?? "",
     startingPrice: row.price_from,
     compareAtPrice: row.compare_at_price,
+    depositAmount: row.deposit_amount,
     image: images[0] ?? "",
     gallery: images.length > 0 ? images : [""],
     tagline: row.tagline ?? "",
