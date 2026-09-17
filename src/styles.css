@@ -127,3 +127,203 @@
     mix-blend-mode: multiply;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==================================================================
+   Hiba motion system
+   Append to the bottom of your global stylesheet (src/styles.css or
+   src/index.css — whichever one already has your Tailwind directives).
+   Uses only existing theme tokens; introduces no new colors or fonts.
+   ================================================================== */
+
+/* ---------- Reveal: fade + slide up on scroll ---------- */
+.hiba-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+.hiba-reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Headline: lines rise into place ---------- */
+.hiba-headline .hiba-headline-line {
+  display: block;
+  overflow: hidden;
+}
+.hiba-headline .hiba-headline-line > span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: hiba-rise 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+@keyframes hiba-rise {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Marquee ticker ---------- */
+.hiba-marquee {
+  overflow: hidden;
+  width: 100%;
+}
+.hiba-marquee-track {
+  display: flex;
+  width: max-content;
+  animation-name: hiba-scroll-x;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.hiba-marquee-track > span {
+  white-space: nowrap;
+  padding: 0 1.25rem;
+}
+/* separator between ticker items */
+.hiba-marquee-track > span::after {
+  content: "✦";
+  margin-left: 1.25rem;
+  opacity: 0.7;
+}
+@keyframes hiba-scroll-x {
+  to {
+    transform: translateX(-50%);
+  }
+}
+/* pause on hover so it's readable */
+.hiba-marquee:hover .hiba-marquee-track {
+  animation-play-state: paused;
+}
+
+/* ---------- Slice reveal: vertical strips wipe open ---------- */
+.hiba-slice {
+  position: relative;
+  overflow: hidden;
+}
+.hiba-slice-base,
+.hiba-slice-overlay {
+  position: absolute;
+  inset: 0;
+}
+.hiba-slice-base {
+  position: relative; /* first child sets the height */
+}
+.hiba-slice-strips {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  z-index: 2;
+  pointer-events: none;
+}
+.hiba-slice-strip {
+  flex: 1;
+  background: hsl(var(--primary)); /* falls back to your theme primary */
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.hiba-slice:hover .hiba-slice-strip,
+.hiba-slice:focus-within .hiba-slice-strip {
+  transform: scaleY(1);
+}
+.hiba-slice-overlay {
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.25s ease 0.4s;
+  pointer-events: none;
+}
+.hiba-slice:hover .hiba-slice-overlay,
+.hiba-slice:focus-within .hiba-slice-overlay {
+  opacity: 1;
+}
+
+/* ---------- Parallax ---------- */
+.hiba-parallax-inner {
+  transition: transform 0.18s ease-out;
+  will-change: transform;
+}
+
+/* ---------- Lift on hover (buttons + cards) ---------- */
+.hiba-lift {
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.28s ease;
+}
+.hiba-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px -18px rgba(62, 42, 32, 0.4);
+}
+
+/* ---------- Oversized background wordmark ---------- */
+.hiba-wordmark {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  translate: -50% -50%;
+  z-index: 0;
+  font-size: clamp(5rem, 22vw, 18rem);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  opacity: 0.06;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ==================================================================
+   Reduced motion: keep everything visible, drop the movement.
+   ================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .hiba-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hiba-headline .hiba-headline-line > span {
+    transform: none;
+    animation: none;
+  }
+  .hiba-marquee-track {
+    animation: none;
+    transform: none;
+  }
+  .hiba-slice-strip {
+    transition: none;
+  }
+  .hiba-slice-overlay {
+    transition: none;
+  }
+  .hiba-parallax-inner {
+    transition: none;
+    transform: none !important;
+  }
+  .hiba-lift {
+    transition: none;
+  }
+  .hiba-lift:hover {
+    transform: none;
+  }
+}
