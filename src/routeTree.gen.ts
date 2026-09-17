@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as OurWorkRouteImport } from './routes/our-work'
 import { Route as OrderConfirmedRouteImport } from './routes/order-confirmed'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CheckoutRouteImport } from './routes/checkout'
@@ -20,6 +21,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShopSlugRouteImport } from './routes/shop_.$slug'
 import { Route as AdminReviewsRouteImport } from './routes/admin_.reviews'
+import { Route as AdminOurWorkRouteImport } from './routes/admin_.our-work'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 
 const ShopRoute = ShopRouteImport.update({
@@ -30,6 +32,11 @@ const ShopRoute = ShopRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OurWorkRoute = OurWorkRouteImport.update({
+  id: '/our-work',
+  path: '/our-work',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrderConfirmedRoute = OrderConfirmedRouteImport.update({
@@ -77,6 +84,11 @@ const AdminReviewsRoute = AdminReviewsRouteImport.update({
   path: '/admin/reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminOurWorkRoute = AdminOurWorkRouteImport.update({
+  id: '/admin_/our-work',
+  path: '/admin/our-work',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin_/login',
   path: '/admin/login',
@@ -91,9 +103,11 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/order-confirmed': typeof OrderConfirmedRoute
+  '/our-work': typeof OurWorkRoute
   '/services': typeof ServicesRoute
   '/shop': typeof ShopRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/our-work': typeof AdminOurWorkRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/shop/$slug': typeof ShopSlugRoute
 }
@@ -105,9 +119,11 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/order-confirmed': typeof OrderConfirmedRoute
+  '/our-work': typeof OurWorkRoute
   '/services': typeof ServicesRoute
   '/shop': typeof ShopRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/our-work': typeof AdminOurWorkRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/shop/$slug': typeof ShopSlugRoute
 }
@@ -120,9 +136,11 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/order-confirmed': typeof OrderConfirmedRoute
+  '/our-work': typeof OurWorkRoute
   '/services': typeof ServicesRoute
   '/shop': typeof ShopRoute
   '/admin_/login': typeof AdminLoginRoute
+  '/admin_/our-work': typeof AdminOurWorkRoute
   '/admin_/reviews': typeof AdminReviewsRoute
   '/shop_/$slug': typeof ShopSlugRoute
 }
@@ -136,9 +154,11 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/order-confirmed'
+    | '/our-work'
     | '/services'
     | '/shop'
     | '/admin/login'
+    | '/admin/our-work'
     | '/admin/reviews'
     | '/shop/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -150,9 +170,11 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/order-confirmed'
+    | '/our-work'
     | '/services'
     | '/shop'
     | '/admin/login'
+    | '/admin/our-work'
     | '/admin/reviews'
     | '/shop/$slug'
   id:
@@ -164,9 +186,11 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/order-confirmed'
+    | '/our-work'
     | '/services'
     | '/shop'
     | '/admin_/login'
+    | '/admin_/our-work'
     | '/admin_/reviews'
     | '/shop_/$slug'
   fileRoutesById: FileRoutesById
@@ -179,9 +203,11 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   OrderConfirmedRoute: typeof OrderConfirmedRoute
+  OurWorkRoute: typeof OurWorkRoute
   ServicesRoute: typeof ServicesRoute
   ShopRoute: typeof ShopRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminOurWorkRoute: typeof AdminOurWorkRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   ShopSlugRoute: typeof ShopSlugRoute
 }
@@ -200,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/our-work': {
+      id: '/our-work'
+      path: '/our-work'
+      fullPath: '/our-work'
+      preLoaderRoute: typeof OurWorkRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/order-confirmed': {
@@ -265,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/our-work': {
+      id: '/admin_/our-work'
+      path: '/admin/our-work'
+      fullPath: '/admin/our-work'
+      preLoaderRoute: typeof AdminOurWorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin_/login': {
       id: '/admin_/login'
       path: '/admin/login'
@@ -283,9 +323,11 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   OrderConfirmedRoute: OrderConfirmedRoute,
+  OurWorkRoute: OurWorkRoute,
   ServicesRoute: ServicesRoute,
   ShopRoute: ShopRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminOurWorkRoute: AdminOurWorkRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   ShopSlugRoute: ShopSlugRoute,
 }

@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Ruler, Wrench, Sparkles, Star } from "lucide-react";
-import { motion } from "framer-motion";
 import hero from "@/assets/hero-sofa.jpg";
 import beforeAfter from "@/assets/before-after.jpg";
 import workshop from "@/assets/workshop.jpg";
@@ -10,7 +9,13 @@ import { fetchReviews } from "@/data/reviews";
 import { ProductCard } from "@/components/brand/ProductCard";
 import { TrustBar } from "@/components/brand/TrustBar";
 import { InquiryForm } from "@/components/brand/InquiryForm";
-import { Reveal } from "@/components/brand/Reveal";
+import {
+  Reveal,
+  HeadlineReveal,
+  Marquee,
+  CountUp,
+  ParallaxTilt,
+} from "@/components/motion/motion";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -28,28 +33,20 @@ function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        {/* Oversized decorative background type — the "premium editorial"
-            touch: huge, low-opacity text bleeding behind the real content. */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/4 select-none whitespace-nowrap font-serif font-bold text-espresso/[0.045]"
-          style={{ fontSize: "min(22vw, 260px)" }}
-        >
-          HIBA SOFA
-        </span>
-
-        <div className="container-hiba relative grid lg:grid-cols-2 gap-10 lg:gap-16 py-14 lg:py-24 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          >
+      <section className="relative">
+        <div className="container-hiba grid lg:grid-cols-2 gap-10 lg:gap-16 py-14 lg:py-24 items-center">
+          <div>
             <p className="eyebrow">Since 2016 · Bengaluru</p>
-            <h1 className="mt-4 text-5xl md:text-7xl leading-[1.02] tracking-tight">
-              Sofas made to fit <br />
-              <span className="italic text-terracotta">your room</span>,<br /> not the other way around.
-            </h1>
+            <HeadlineReveal
+              className="mt-4 text-4xl md:text-6xl leading-[1.05]"
+              lines={[
+                "Sofas made to fit",
+                <span className="italic text-terracotta" key="l2">
+                  your room,
+                </span>,
+                "not the other way around.",
+              ]}
+            />
             <p className="mt-6 max-w-lg text-base text-muted-foreground leading-relaxed">
               Hand-built custom sofas, reupholstery and repair from a small
               Bengaluru workshop. Nearly a decade of quiet, careful craft —
@@ -58,13 +55,13 @@ function Home() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm hover:brightness-110 transition"
+                className="hiba-lift inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm hover:brightness-110 transition"
               >
                 Get a custom quote <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href="https://wa.me/917019275831"
-                className="inline-flex items-center gap-2 rounded-full border border-input px-6 py-3 text-sm hover:bg-secondary transition"
+                className="hiba-lift inline-flex items-center gap-2 rounded-full border border-input px-6 py-3 text-sm hover:bg-secondary transition"
               >
                 WhatsApp us
               </a>
@@ -78,42 +75,67 @@ function Home() {
               </div>
               <span className="hidden sm:inline">Pan-India delivery</span>
             </div>
-          </motion.div>
-
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          >
+          </div>
+          <ParallaxTilt className="relative">
             <div className="absolute -inset-4 bg-terracotta/10 rounded-3xl -z-10" />
-            <div className="relative overflow-hidden rounded-2xl shadow-warm">
-              <img
-                src={hero}
-                alt="Custom Hiba sofa in a warm living room"
-                width={1600}
-                height={1100}
-                className="w-full object-cover aspect-[5/4]"
-              />
-              {/* Subtle fluted-glass style overlay for a premium showroom feel */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(100deg, rgba(255,255,255,0.9) 0px, rgba(255,255,255,0.9) 2px, transparent 2px, transparent 16px)",
-                }}
-              />
-            </div>
+            <img
+              src={hero}
+              alt="Custom Hiba sofa in a warm living room"
+              width={1600}
+              height={1100}
+              className="rounded-2xl shadow-warm w-full object-cover aspect-[5/4]"
+            />
             <div className="absolute -bottom-6 -left-6 bg-cream border border-border rounded-2xl px-5 py-4 shadow-soft hidden md:block">
               <p className="eyebrow">Design with</p>
               <p className="font-serif text-2xl italic text-terracotta">Dignity.</p>
             </div>
-          </motion.div>
+          </ParallaxTilt>
         </div>
       </section>
 
+      {/* Ticker */}
+      <Marquee
+        className="bg-espresso text-cream/85 py-3 text-xs uppercase tracking-[0.08em] border-y border-black/20"
+        items={[
+          "Handcrafted frames",
+          "Reupholstered with care",
+          "Made to measure",
+          "Pan-India delivery",
+          "Since 2016",
+        ]}
+      />
+
       <TrustBar />
+
+      {/* Numbers */}
+      <section className="container-hiba pt-16">
+        <Reveal>
+          <div className="grid sm:grid-cols-3 rounded-2xl border border-border bg-card overflow-hidden">
+            <div className="p-7 text-center border-b sm:border-b-0 sm:border-r border-border">
+              <p className="font-serif text-4xl text-terracotta">
+                <CountUp to={500} suffix="+" />
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">Sofas restored</p>
+            </div>
+            <div className="p-7 text-center border-b sm:border-b-0 sm:border-r border-border">
+              <p className="font-serif text-4xl text-terracotta">
+                <CountUp to={9} />
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Day average turnaround
+              </p>
+            </div>
+            <div className="p-7 text-center">
+              <p className="font-serif text-4xl text-terracotta">
+                <CountUp to={4.6} decimals={1} />
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Google rating, 75+ reviews
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </section>
 
       {/* Why */}
       <section className="container-hiba py-20">
@@ -143,11 +165,13 @@ function Home() {
               body: "Seasoned hardwood, high-density foam, hand-finished stitching. Built to be re-covered a decade later.",
             },
           ].map(({ icon: Icon, title, body }, i) => (
-            <Reveal key={title} delay={i * 0.1}>
-              <div className="p-6 rounded-2xl border border-border bg-card h-full">
+            <Reveal key={title} delay={i * 90}>
+              <div className="hiba-lift p-6 rounded-2xl border border-border bg-card h-full">
                 <Icon className="h-6 w-6 text-terracotta" />
                 <h3 className="mt-4 text-xl">{title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{body}</p>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                  {body}
+                </p>
               </div>
             </Reveal>
           ))}
@@ -170,7 +194,7 @@ function Home() {
           </Reveal>
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.slice(0, 3).map((p, i) => (
-              <Reveal key={p.slug} delay={i * 0.1}>
+              <Reveal key={p.slug} delay={i * 90} className="hiba-lift">
                 <ProductCard product={p} />
               </Reveal>
             ))}
@@ -193,21 +217,21 @@ function Home() {
             </p>
             <div className="mt-6 flex gap-3">
               <Link
-                to="/services"
-                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-3 text-sm hover:brightness-110 transition"
+                to="/our-work"
+                className="hiba-lift inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-3 text-sm hover:brightness-110 transition"
               >
                 See the transformation
               </Link>
               <a
                 href="https://wa.me/917019275831?text=Hi%2C%20I%27d%20like%20a%20quote%20for%20reupholstery."
-                className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm hover:bg-secondary transition"
+                className="hiba-lift inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm hover:bg-secondary transition"
               >
                 Send a photo
               </a>
             </div>
           </div>
         </Reveal>
-        <Reveal delay={0.15}>
+        <Reveal delay={120}>
           <img
             src={beforeAfter}
             alt="Before and after reupholstery"
@@ -228,20 +252,21 @@ function Home() {
               <h2 className="mt-3 text-3xl md:text-4xl">Words from our customers</h2>
             </div>
           </Reveal>
-          <div className="mt-10 grid md:grid-cols-3 gap-6">
-            {reviews.map((r, i) => (
-              <Reveal key={r.id ?? r.authorName} delay={i * 0.1}>
-                <blockquote className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 h-full">
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: r.rating }).map((_, j) => (
-                      <Star key={j} className="h-4 w-4 fill-terracotta text-terracotta" />
-                    ))}
-                  </div>
-                  <p className="mt-4 text-sm leading-relaxed text-cream/85">"{r.text}"</p>
-                  <footer className="mt-6 text-xs text-cream/60">
-                    {r.authorName} · {r.city}
-                  </footer>
-                </blockquote>
+          <div className="mt-10 grid md:grid-cols-3 gap-6">            {reviews.map((r, i) => (
+              <Reveal key={r.id ?? r.authorName} delay={i * 90}>
+              <blockquote
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 h-full"
+              >
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: r.rating }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-terracotta text-terracotta" />
+                  ))}
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-cream/85">"{r.text}"</p>
+                <footer className="mt-6 text-xs text-cream/60">
+                  {r.authorName} · {r.city}
+                </footer>
+              </blockquote>
               </Reveal>
             ))}
           </div>
@@ -261,7 +286,7 @@ function Home() {
             className="rounded-2xl shadow-soft w-full object-cover aspect-[3/2]"
           />
         </Reveal>
-        <Reveal delay={0.15}>
+        <Reveal delay={120}>
           <InquiryForm
             title="Tell us about your space"
             subtitle="Share your room size and taste — we'll come back with a made-to-measure quote."

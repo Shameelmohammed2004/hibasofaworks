@@ -243,11 +243,14 @@ function AdminDashboard() {
           <h1 className="mt-2 text-3xl">Manage products</h1>
         </div>
                 <div className="flex gap-2">
-          <Button onClick={openNew}>Add product</Button>
-          <Button asChild variant="outline">
-            <Link to="/admin/reviews">Manage reviews</Link>
-          </Button>
-                   <Button variant="outline" onClick={handleLogout}>
+         <Button onClick={openNew}>Add product</Button>
+<Button asChild variant="outline">
+  <Link to="/admin/reviews">Manage reviews</Link>
+</Button>
+<Button asChild variant="outline">
+  <Link to="/admin/our-work">Manage our work</Link>
+</Button>
+<Button variant="outline" onClick={handleLogout}>
             Log out
           </Button>
         </div>
