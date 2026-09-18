@@ -194,6 +194,10 @@ export function CountUp({
 /* SliceReveal — vertical strips wipe open on hover                    */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/* SliceReveal — vertical strips wipe open on hover                    */
+/* ------------------------------------------------------------------ */
+
 export function SliceReveal({
   base,
   overlay,

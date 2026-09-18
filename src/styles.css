@@ -246,7 +246,8 @@
   transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1);
 }
 .hiba-slice:hover .hiba-slice-strip,
-.hiba-slice:focus-within .hiba-slice-strip {
+.hiba-slice:focus-within .hiba-slice-strip,
+.hiba-slice.is-revealed .hiba-slice-strip {
   transform: scaleY(1);
 }
 .hiba-slice-overlay {
@@ -256,10 +257,38 @@
   pointer-events: none;
 }
 .hiba-slice:hover .hiba-slice-overlay,
-.hiba-slice:focus-within .hiba-slice-overlay {
+.hiba-slice:focus-within .hiba-slice-overlay,
+.hiba-slice.is-revealed .hiba-slice-overlay {
   opacity: 1;
+} 
+.hiba-slice-hint {
+  position: absolute;
+  z-index: 4;
+  bottom: 0.75rem;
+  left: 50%;
+  translate: -50% 0;
+  background: color-mix(in oklab, var(--espresso) 75%, transparent);
+  color: var(--cream);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
-
+.hiba-slice:hover .hiba-slice-hint,
+.hiba-slice:focus-within .hiba-slice-hint,
+.hiba-slice.is-revealed .hiba-slice-hint {
+  opacity: 0;
+}
+.hiba-slice-hint-tap {
+  display: none;
+}
+@media (hover: none) {
+  .hiba-slice-hint-hover { display: none; }
+  .hiba-slice-hint-tap { display: block; }
+}
 /* ---------- Parallax ---------- */
 .hiba-parallax-inner {
   transition: transform 0.18s ease-out;
